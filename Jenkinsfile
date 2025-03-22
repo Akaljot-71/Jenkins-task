@@ -1,51 +1,68 @@
 pipeline {
     agent any
-    
-    environment {
-        DIRECTORY_PATH = 'https://github.com/Akaljot-71/Jenkins-task' 
-        TESTING_ENVIRONMENT = 'sonarqube'
-        PRODUCTION_ENVIRONMENT = 'Akaljot' 
-    }
-    
+
     stages {
         stage('Build') {
             steps {
-                echo "Fetch the source code from the directory path specified by the environment variable: ${env.DIRECTORY_PATH}"
-                echo "Compile the code and generate any necessary artifacts"
+                script {
+                    echo 'Building the application...'
+                }
             }
         }
-        
-        stage('Test') {
+        stage('Unit and Integration Tests') {
             steps {
-                echo "Running Unit tests"
-                echo "Running Integration tests"
+                script {
+                    echo 'Running unit and integration tests...'
+                }
             }
         }
-        
-        stage('Code Quality Check') {
+        stage('Code Analysis') {
             steps {
-                echo "Check the quality of the code"
+                script {
+                    echo 'Performing code analysis...'
+                }
             }
         }
-        
-        stage('Deploy') {
+        stage('Security Scan') {
             steps {
-                echo "Deploy the application to the testing environment specified by the environment variable: ${env.TESTING_ENVIRONMENT}"
+                script {
+                    echo 'Running security scan...'
+                }
             }
         }
-        
-        stage('Approval') {
+        stage('Deploy to Staging') {
             steps {
-                echo "Waiting for manual approval..."
-                sleep(time: 10, unit: 'SECONDS') // Simulate manual approval with a 10-second pause
-                echo "Approval received. Proceeding to production deployment."
+                script {
+                    echo 'Deploying application to staging server...'
+                }
             }
         }
-        
+        stage('Integration Tests on Staging') {
+            steps {
+                script {
+                    echo 'Running integration tests on staging environment...'
+                }
+            }
+        }
         stage('Deploy to Production') {
             steps {
-                echo "Deploying the code to the production environment: ${env.PRODUCTION_ENVIRONMENT}"
+                script {
+                    echo 'Deploying application to production server...'
+                }
             }
         }
     }
+
+    post {
+        always {
+            script {
+                echo 'Sending email notification...'
+                mail (
+                    subject: "Pipeline Notification: ${JOB_NAME} - Build #${BUILD_NUMBER}",
+                    body: "The pipeline has completed. Check details at: ${BUILD_URL}",
+                    to: 'akaljot4756.be23@chitkara.edu.in'
+                )
+            }
+        }
+    }
 }
