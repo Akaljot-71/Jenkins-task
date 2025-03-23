@@ -63,6 +63,6 @@ pipeline {
                     to: 'akaljot4756.be23@chitkara.edu.in'
                 )
             }
-        }
-    }
+        }
+    }
 }
