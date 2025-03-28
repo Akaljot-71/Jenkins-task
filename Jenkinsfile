@@ -56,7 +56,7 @@ pipeline {
     post {
         always {
             script {
-                echo 'Sending email notification using Jenkins Email Extension Plugin...'
+                echo 'Sending email notification using Jenkins Email Extension Plugin'
                 mail (
                     subject: "Pipeline Notification: ${JOB_NAME} - Build #${BUILD_NUMBER}",
                     body: "The pipeline has completed. Check details at: ${BUILD_URL}",
